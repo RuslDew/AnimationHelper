@@ -163,6 +163,8 @@ public class AnimationEditorHelper
             try
             {
                 object newCurve = curveConstructor.Invoke(new object[] { animationClip, binding, valueType });
+
+                return newCurve;
             }
             catch (Exception e)
             {
