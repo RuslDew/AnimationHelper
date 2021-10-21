@@ -7,14 +7,14 @@ using System;
 
 public class AnimationEditorHelper
 {
-    private static System.Type AnimationWindowType;
+    private static Type AnimationWindowType;
 
     private static IEnumerable CachedSelectedKeyframes = null;
 
     private const BindingFlags Flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
 
-    private static System.Type GetAnimationWindowType()
+    private static Type GetAnimationWindowType()
     {
         if (AnimationWindowType == null)
         {
