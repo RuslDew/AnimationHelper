@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -7,14 +7,14 @@ using System;
 
 public class AnimationEditorHelper
 {
-    private static Type AnimationWindowType;
+    private static System.Type AnimationWindowType;
 
     private static IEnumerable CachedSelectedKeyframes = null;
 
     private const BindingFlags Flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
 
-    private static Type GetAnimationWindowType()
+    private static System.Type GetAnimationWindowType()
     {
         if (AnimationWindowType == null)
         {
@@ -40,12 +40,12 @@ public class AnimationEditorHelper
     private static void CopyKeyframes()
     {
         object animState = GetAnimWindowStateObject();
-        object root = GetRootGameObject();
+        object animClip = GetCurrentAnimationClip();
         CachedSelectedKeyframes = GetSelectedKeyframes();
 
         bool haveSelectedKeyframes = CachedSelectedKeyframes != null && ((IList)CachedSelectedKeyframes).Count > 0;
 
-        if (animState != null && root != null && haveSelectedKeyframes)
+        if (animState != null && animClip != null && haveSelectedKeyframes)
         {
             CopyKeyframesToClipboard();
         }
@@ -55,9 +55,9 @@ public class AnimationEditorHelper
     private static void PasteKeyframes()
     {
         object animState = GetAnimWindowStateObject();
-        object root = GetRootGameObject();
+        object animClip = GetCurrentAnimationClip();
 
-        if (animState != null && root != null)
+        if (animState != null && animClip != null)
         {
             MatchCurves();
 
@@ -96,16 +96,23 @@ public class AnimationEditorHelper
 
                     GameObject matchingGameObjectByPath = null;
 
-                    if (path == "")
+                    if (root != null)
                     {
-                        matchingGameObjectByPath = root;
+                        if (path == "")
+                        {
+                            matchingGameObjectByPath = root;
+                        }
+                        else
+                        {
+                            matchingGameObjectByPath = root.transform.Find(path).gameObject;
+                        }
+
+                        if (GameObjectHasComponentOfType(matchingGameObjectByPath, type))
+                        {
+                            AddCurveToCurrentStateCurve(curve);
+                        }
                     }
                     else
-                    {
-                        matchingGameObjectByPath = root.transform.Find(path).gameObject;
-                    }
-
-                    if (GameObjectHasComponentOfType(matchingGameObjectByPath, type))
                     {
                         AddCurveToCurrentStateCurve(curve);
                     }
