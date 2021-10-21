@@ -8,7 +8,6 @@ using System;
 public class AnimationEditorHelper
 {
     private static System.Type AnimationWindowType;
-    private static System.Type AnimationWindowUtilityType;
 
     private static IEnumerable CachedSelectedKeyframes = null;
 
