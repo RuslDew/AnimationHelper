@@ -158,7 +158,10 @@ public class AnimationEditorHelper
             object binding = GetFieldObject(curve, "m_Binding");
             object valueType = GetFieldObject(curve, "m_ValueType");
 
-            ConstructorInfo curveConstructor = curve.GetType().GetConstructor(new Type[] { curve.GetType() });
+            Type bindingType = Type.GetType("UnityEditor.EditorCurveBinding,UnityEditor");
+            Type animationClipType = Type.GetType("UnityEngine.AnimationClip,UnityEngine");
+
+            ConstructorInfo curveConstructor = curve.GetType().GetConstructor(new Type[] { animationClipType, bindingType, typeof(Type) });
 
             try
             {
