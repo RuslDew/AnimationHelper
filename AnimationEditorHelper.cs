@@ -104,7 +104,12 @@ public class AnimationEditorHelper
                         }
                         else
                         {
-                            matchingGameObjectByPath = root.transform.Find(path).gameObject;
+                            Transform foundedObject = root.transform.Find(path);
+
+                            if (foundedObject != null)
+                            {
+                                matchingGameObjectByPath = foundedObject.gameObject;
+                            }
                         }
 
                         if (GameObjectHasComponentOfType(matchingGameObjectByPath, type))
